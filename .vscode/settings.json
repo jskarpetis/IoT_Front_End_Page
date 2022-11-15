@@ -1,0 +1,11 @@
+{
+  "cSpell.words": ["Mantics", "searchresults", "subtittle"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "angular.enable-strict-mode-prompt": false
+  // "[html]": {
+  //   "editor.defaultFormatter": "vscode.html-language-features"
+  // }
+}
