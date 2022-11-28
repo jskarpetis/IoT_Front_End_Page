@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http2Eshop } from '../http2Eshop';
+import { Http2IoT } from '../http2IoT';
 import { GetProductsResponse, IProduct } from '../models/GetProductsResponse';
 import { RegisterProductResponse } from '../models/RegisterProductResponse';
 import { UpdateProductResponse } from '../models/UpdateProductResponse';
@@ -9,17 +9,17 @@ import { UpdateProductResponse } from '../models/UpdateProductResponse';
   providedIn: 'root',
 })
 export class ProductAPI {
-  constructor(private http2Eshop: Http2Eshop) {}
+  constructor(private http2IoT: Http2IoT) {}
 
   /**
-   * Get all the products from our protected recource
+   * Get all the products from our protected resource
    * @param {HttpHeaders} headers if needed to add extra headers except defaults
    * @returns {Promise<GetProductsResponse>} Promise with all products
    */
   public getProducts(
     headers: HttpHeaders = null
   ): Promise<GetProductsResponse> {
-    return this.http2Eshop.get({
+    return this.http2IoT.get({
       headers: headers,
       path: '/products',
       isAuth: false,
@@ -36,7 +36,7 @@ export class ProductAPI {
     headers: HttpHeaders = null,
     queryParams: any
   ): Promise<IProduct> {
-    return this.http2Eshop.get({
+    return this.http2IoT.get({
       headers: headers,
       path: `/products/${queryParams}`,
       isAuth: false,
@@ -53,7 +53,7 @@ export class ProductAPI {
     input: IProduct,
     headers: HttpHeaders = null
   ): Promise<RegisterProductResponse> {
-    return this.http2Eshop.post({
+    return this.http2IoT.post({
       input: input,
       headers: headers,
       path: `/products/register-new-product`,
@@ -71,7 +71,7 @@ export class ProductAPI {
     input: IProduct,
     headers: HttpHeaders = null
   ): Promise<UpdateProductResponse> {
-    return this.http2Eshop.patch({
+    return this.http2IoT.patch({
       input: input,
       headers: headers,
       path: `/products/update-product`,
@@ -89,7 +89,7 @@ export class ProductAPI {
     queryParams: any,
     headers: HttpHeaders = null
   ): Promise<any> {
-    return this.http2Eshop.delete({
+    return this.http2IoT.delete({
       headers: headers,
       path: `/products/delete-product/${queryParams}`,
       isAuth: false,

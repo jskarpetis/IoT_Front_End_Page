@@ -1,20 +1,17 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { Http2Eshop } from './http2Eshop';
+import { HttpClientModule } from '@angular/common/http';
+import { Http2IoT } from './http2IoT';
 import { AuthenticationAPI } from './api/authenticationAPI';
 
 @NgModule({
   imports: [HttpClientModule],
-  providers: [
-    Http2Eshop,
-    AuthenticationAPI
-  ],
+  providers: [Http2IoT, AuthenticationAPI],
 })
-export class eshopApiModule {
-  constructor(@Optional() @SkipSelf() parentModule: eshopApiModule) {
+export class IoTApiModule {
+  constructor(@Optional() @SkipSelf() parentModule: IoTApiModule) {
     if (parentModule) {
       throw new Error(
-        'Http2Eshop Module is already loaded. Import it in the AppModule only'
+        'Http2IoT Module is already loaded. Import it in the AppModule only'
       );
     }
   }

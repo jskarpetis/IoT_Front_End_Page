@@ -14,12 +14,9 @@ import { PageNotFoundComponent } from './page-not-found.component';
 // import { ProductModule } from './products/product.module';
 // import { MessageModule } from './messages/message.module';
 import { AppRootingModule } from './app-rooting.module';
-import { eshopApiModule } from 'src/eshopAPI/eshopAPI.module';
+import { IoTApiModule } from '../eshopAPI/eshopAPI.module';
 import { LoginModule } from './pages/init/login/login.module';
-import { InitPresenter } from './pages/init/init.presenter';
 import { FormsModule } from '@angular/forms';
-
-
 
 @NgModule({
   // Because we have declared these modules here we have access to all their paths from Router.forChild()
@@ -30,18 +27,18 @@ import { FormsModule } from '@angular/forms';
     // InMemoryWebApiModule.forRoot(ProductData, { delay: 1000 }), // We use this to simulate calls to a backend data service
     // ProductModule, // We are going to lazy load this productModule and we must not have a reference to it in the main module
     // MessageModule,
-    eshopApiModule,
+    IoTApiModule,
     FormsModule,
     LoginModule,
     HttpClientModule,
-    AppRootingModule // When this is imported all its exports are available to the declared components, also this should be imported last
+    AppRootingModule, // When this is imported all its exports are available to the declared components, also this should be imported last
   ],
 
-  declarations: [ 
+  declarations: [
     AppComponent,
     // WelcomeComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
