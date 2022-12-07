@@ -178,9 +178,37 @@ app.get(
     }
 
     if (__.contains(req.access_token.scope, "cameras")) {
-      res.json({
-        test: "test",
-      });
+      const options = {
+        method: "GET",
+        url: "https://vyw9fshj89.execute-api.eu-north-1.amazonaws.com/dev/get-all-camera-data",
+      };
+      await axios
+        .request(options)
+        .then((response) => {
+          allCameraData = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      if (allCameraData.length >= 1) {
+        res.status(200).json({
+          status: 200,
+          statusText: "SUCCESS",
+          allCameraData: allCameraData,
+        });
+        return;
+      } else {
+        res.status(404).json({
+          status: 404,
+          statusText: "NOT_FOUND",
+          error: {
+            errno: req.errno,
+            message: "Cannot find requested resource.",
+          },
+        });
+        return;
+      }
     } else {
       res.status(500).json({
         status: 500,

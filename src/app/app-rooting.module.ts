@@ -9,10 +9,10 @@ const routes: Routes = [
       import('./pages/init/login/login.module').then((m) => m.LoginModule),
   },
   {
-    path: 'products',
+    path: 'cameras',
     loadChildren: () =>
-      import('./pages/product-list/products/products.module').then(
-        (m) => m.ProductsModule
+      import('./pages/camera-list/cameras/cameras.module').then(
+        (m) => m.CameraModule
       ),
   },
 ];

@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class GlobalsService {
   private _token: string = null;
   private _id: string = null;
-  private _isAdmin: boolean = null;
 
   get token() {
     return this._token;
@@ -20,12 +19,5 @@ export class GlobalsService {
   }
   set id(id: string) {
     this._id = id;
-  }
-
-  get isAdmin() {
-    return this._isAdmin;
-  }
-  set isAdmin(bool: boolean) {
-    this._isAdmin = bool;
   }
 }
