@@ -1,22 +1,16 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var randomstring = require("randomstring");
-var cons = require("consolidate");
 var __ = require("underscore");
 var cors = require("cors");
 var jose = require("jsrsasign");
 var base64url = require("base64url");
-
+var axios = require("axios");
 var app = express();
 
 app.use(bodyParser.urlencoded({ extended: true })); // support form-encoded bodies (for bearer tokens)
 app.use(bodyParser.json());
 app.use(cors());
-
-var resource = {
-  name: "E-shop",
-  description: "E-shop products API",
-};
 
 // Same rsaKey as the client
 var rsaKey = {
@@ -26,77 +20,6 @@ var rsaKey = {
   kty: "RSA",
   kid: "authserver",
 };
-
-productData = [
-  {
-    id: "GJE-ERGX-ZWQF-ETHRY-WER",
-    productName: "Leaf Rake",
-    productCode: "GDN-0011",
-    releaseDate: "March 19, 2018",
-    description: "Leaf rake with 48-inch wooden handle",
-    price: 19.95,
-    starRating: 3.2,
-    imageUrl: "assets/images/leaf_rake.png",
-    category: "Garden",
-    tags: ["rake", "leaf", "yard", "home"],
-  },
-  {
-    id: "MJRTH-SVXCW-RYJMD-SESE",
-    productName: "Garden Cart",
-    productCode: "GDN-0023",
-    releaseDate: "March 18, 2018",
-    description: "15 gallon capacity rolling garden cart",
-    price: 32.99,
-    starRating: 4.2,
-    imageUrl: "assets/images/garden_cart.png",
-    category: "Garden",
-  },
-  {
-    id: "WEF-ERBERQ-QDWV-WEFB-WEQQHM",
-    productName: "Hammer",
-    productCode: "TBX-0048",
-    releaseDate: "May 21, 2018",
-    description: "Curved claw steel hammer",
-    price: 8.9,
-    starRating: 4.8,
-    imageUrl: "assets/images/hammer.png",
-    category: "Toolbox",
-    tags: ["tools", "hammer", "construction"],
-  },
-  {
-    id: "WEFWE-MOKH-QWOU-VUIJGM-WEPOI",
-    productName: "Saw",
-    productCode: "TBX-0022",
-    releaseDate: "May 15, 2018",
-    description: "15-inch steel blade hand saw",
-    price: 11.55,
-    starRating: 3.7,
-    imageUrl: "assets/images/saw.png",
-    category: "Toolbox",
-  },
-  {
-    id: "QWMBGK-TYIOS-ZJNGB-YOIUTM",
-    productName: "Video Game Controller",
-    productCode: "GMG-0042",
-    releaseDate: "October 15, 2018",
-    description: "Standard two-button video game controller",
-    price: 35.95,
-    starRating: 4.6,
-    imageUrl: "assets/images/xbox-controller.png",
-    category: "Gaming",
-  },
-  {
-    id: "WEFWB-GTRMNKH-QWIURMG-WEOKF-WEFGKJN",
-    productName: "Video Game Controller version 2",
-    productCode: "GMGGR-00424232",
-    releaseDate: "October 15, 2019",
-    description: "Standard two-button video game controller",
-    price: 45.95,
-    starRating: 4.9,
-    imageUrl: "assets/images/xbox-controller.png",
-    category: "Gaming",
-  },
-];
 
 // Middleware function
 var getAccessToken = function (req, res, next) {
@@ -222,11 +145,8 @@ var getAccessToken = function (req, res, next) {
   return;
 };
 
-app.options("/products", cors());
-app.options("/products/:id", cors());
-app.options("/products/register-new-product", cors());
-app.options("/products/update-product/", cors());
-app.options("/products/delete-product/:id", cors());
+app.options("/cameras", cors());
+app.options("/cameras/:id", cors());
 
 // Middleware function
 var requireAccessToken = function (req, res, next) {
@@ -244,24 +164,23 @@ var requireAccessToken = function (req, res, next) {
 // Using the middleware functions -- notice that we use the cors() middleware here - for this specific route we enable Cross-origin resource sharing
 // Cors -> mechanism that allows restricted resources on a web page to be requested from another domain outside the domain from which the first resource was served.
 app.get(
-  "/products",
+  "/cameras",
   getAccessToken,
   requireAccessToken,
   cors(),
-  function (req, res) {
-    var products = [];
-    console.log(req.access_token.scope);
-    console.log(typeof(req.access_token.scope));
-    if (typeof(req.access_token.scope)==='string') {
+  async function (req, res) {
+    var allCameraData = [];
+
+    // console.log(req.access_token.scope);
+    // console.log(typeof req.access_token.scope);
+    if (typeof req.access_token.scope === "string") {
       req.access_token.scope = [req.access_token.scope];
     }
-    // According to the scope we build the response object in this case gymStats
-    if (__.contains(req.access_token.scope, "products")) {
-      products = productData;
-    }
-    if (products.length > 1) {
-      console.log("Sending Products: ", products);
-      res.json(products);
+
+    if (__.contains(req.access_token.scope, "cameras")) {
+      res.json({
+        test: "test",
+      });
     } else {
       res.status(500).json({
         status: 500,
@@ -273,190 +192,58 @@ app.get(
 );
 
 app.get(
-  "/products/:id",
+  "/cameras/:id",
   getAccessToken,
   requireAccessToken,
   cors(),
-  (req, res) => {
-    const product_id = req.params.id;
-    product = __.find(productData, (product) => {
-      // Weird i cant get find to work properly
-      if (product.id.toString() === product_id.toString()) {
-        return product;
-      }
-    });
-    if (product) {
-      console.log("\nSending product -> ", product);
-      res.status(200).json(product);
-    } else {
-      res.status(404).json({
-        status: 404,
-        statusText: "NOT_FOUND",
-        error: {
-          errno: req.errno,
-          message: "Cannot find requested resource.",
-        },
-      });
-      return;
-    }
-  }
-);
+  async function (req, res) {
+    const camera_id = req.params.id;
+    cameraData = [];
 
-app.post(
-  "/products/register-new-product",
-  getAccessToken,
-  requireAccessToken,
-  cors(),
-  (req, res) => {
-    const submitted_product = req.body;
-    if (!submitted_product) {
-      res.status(400).json({
-        status: 400,
-        statusText: "BAD_REQUEST",
-        error: {
-          errno: req.errno,
-          message: "Request body is missing.",
+    if (typeof req.access_token.scope === "string") {
+      req.access_token.scope = [req.access_token.scope];
+    }
+
+    if (__.contains(req.access_token.scope, "cameras")) {
+      const options = {
+        method: "GET",
+        url: "https://tqjdg1qtzb.execute-api.eu-north-1.amazonaws.com/dev/get-updated-camera-metadata",
+        data: {
+          "camera-id": camera_id,
         },
-      });
-      return;
-    } else {
-      const { productCode } = submitted_product;
-      product = __.find(productData, (product) => {
-        if (product.productCode === productCode) return true;
-      });
-      if (product) {
-        res.status(409).json({
-          status: 409,
-          statusText: "CONFLICT",
-          error: {
-            errno: req.errno,
-            message: "Product already exists.",
-          },
+      };
+      await axios
+        .request(options)
+        .then((response) => {
+          cameraData = response.data;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+
+      if (cameraData.length >= 1) {
+        res.status(200).json({
+          status: 200,
+          statusText: "SUCCESS",
+          camera_id: camera_id,
+          cameraData: cameraData,
         });
         return;
       } else {
-        product_id = randomstring.generate(24).toUpperCase();
-
-        const {
-          productName,
-          productCode,
-          releaseDate,
-          description,
-          price,
-          starRating,
-          category,
-          tags,
-        } = submitted_product;
-
-        product_to_register = {
-          id: product_id,
-          productName: productName,
-          productCode: productCode,
-          releaseDate: releaseDate,
-          description: description,
-          price: price,
-          starRating: starRating,
-          category: category,
-          tags: tags,
-        };
-
-        console.log("\nRegistering product -> ", product_to_register);
-
-        productData.push(product_to_register);
-        res.status(201).json({
-          status: 201,
-          statusText: "CREATION_SUCCESS",
+        res.status(404).json({
+          status: 404,
+          statusText: "NOT_FOUND",
+          error: {
+            errno: req.errno,
+            message: "Cannot find requested resource.",
+          },
         });
+        return;
       }
-    }
-  }
-);
-
-app.patch(
-  "/products/update-product/",
-  getAccessToken,
-  requireAccessToken,
-  cors(),
-  (req, res) => {
-    const id = req.body.id;
-    const request_body = req.body;
-    if (!id) {
-      res.status(400).json({
-        status: 400,
-        statusText: "BAD_REQUEST",
-        error: {
-          errno: req.errno,
-          message: "Missing id.",
-        },
-      });
-      return;
-    }
-    product = __.find(productData, (product) => {
-      // Weird i cant get find to work properly
-      if (product.id.toString() === id.toString()) {
-        return product;
-      }
-    });
-
-    product_index = __.indexOf(productData, product);
-    // Handle the update
-    if (product) {
-      given_keys = Object.keys(request_body);
-      for (key in product) {
-        if (__.contains(given_keys, key)) {
-          product[key] = request_body[key];
-        }
-      }
-      productData[product_index] = product;
-      res.status(201).json({
-        status: 201,
-        statusText: "Product updated",
-        product: productData[product_index],
-      });
     } else {
-      res.status(404).json({
-        status: 404,
-        statusText: "NOT_FOUND",
-        error: {
-          errno: req.errno,
-          message: "Cannot find requested resource.",
-        },
-      });
-      return;
-    }
-  }
-);
-
-app.delete(
-  "/products/delete-product/:id",
-  getAccessToken,
-  requireAccessToken,
-  cors(),
-  (req, res) => {
-    const product_id = req.params.id;
-    product = __.find(productData, (product) => {
-      // Weird i cant get find to work properly
-      if (product.id.toString() === product_id.toString()) {
-        return product;
-      }
-    });
-    if (product) {
-      index = __.indexOf(productData, product);
-      productData.splice(index, 1);
-      console.log("Deleting product -> ", product);
-      res.status(200).json({
-        status: 200,
-        statusText: "Product deleted",
-        productData: productData,
-      });
-    } else {
-      res.status(404).json({
-        status: 404,
-        statusText: "NOT_FOUND",
-        error: {
-          errno: req.errno,
-          message: "Cannot find requested resource.",
-        },
+      res.status(500).json({
+        status: 500,
+        statusText: "INTERNAL_SERVER_ERROR",
       });
       return;
     }
@@ -468,11 +255,11 @@ var server = app.listen(9002, "localhost", function () {
   var host = server.address().address;
   var port = server.address().port;
 
-  // console.log(
-  //   "E-shop protected resource Server is listening at http://%s:%s",
-  //   host,
-  //   port
-  // );
+  console.log(
+    "IoT Project protected resource Server is listening at http://%s:%s",
+    host,
+    port
+  );
 });
 
 module.exports = app;

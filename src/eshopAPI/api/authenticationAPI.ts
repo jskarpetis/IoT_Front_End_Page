@@ -8,13 +8,13 @@ import Settings = Constants.Settings;
   providedIn: 'root',
 })
 export class AuthenticationAPI {
-  constructor(private http2Eshop: Http2IoT) {}
+  constructor(private Http2IoT: Http2IoT) {}
 
   public authenticateAdmin(
     input: AdminLoginInput,
     headers: HttpHeaders = null
   ) {
-    return this.http2Eshop.post({
+    return this.Http2IoT.post({
       headers: headers,
       path: `${Settings.URL_AUTH_PREFIX}`,
       input: input,

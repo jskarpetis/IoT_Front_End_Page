@@ -14,7 +14,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 // import { ProductModule } from './products/product.module';
 // import { MessageModule } from './messages/message.module';
 import { AppRootingModule } from './app-rooting.module';
-import { IoTApiModule } from '../eshopAPI/eshopAPI.module';
+import { IoTApiModule } from '../eshopAPI/iotAPI.module';
 import { LoginModule } from './pages/init/login/login.module';
 import { FormsModule } from '@angular/forms';
 
@@ -24,7 +24,6 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpClientModule,
-    // InMemoryWebApiModule.forRoot(ProductData, { delay: 1000 }), // We use this to simulate calls to a backend data service
     // ProductModule, // We are going to lazy load this productModule and we must not have a reference to it in the main module
     // MessageModule,
     IoTApiModule,
