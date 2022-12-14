@@ -338,7 +338,7 @@ app.get("/token", function (req, res) {
         sub: "E-shop user",
         aud: "http://localhost:9002/", // Audience
         iat: Math.floor(Date.now() / 1000),
-        exp: Math.floor(Date.now() / 1000) + 5 * 60,
+        exp: Math.floor(Date.now() / 1000) + 15 * 60,
         jti: randomstring.generate(8),
         scope: authorizationQuery.scope, // Scope
       };
@@ -433,7 +433,7 @@ app.get("/token", function (req, res) {
             sub: "E-shop user",
             aud: "http://localhost:9002/", // Audience
             iat: Math.floor(Date.now() / 1000),
-            exp: Math.floor(Date.now() / 1000) + 5 * 60,
+            exp: Math.floor(Date.now() / 1000) + 15 * 60,
             jti: randomstring.generate(8),
             scope: savedScope, // Scope
           };

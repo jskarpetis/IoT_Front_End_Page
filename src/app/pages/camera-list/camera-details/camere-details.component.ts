@@ -11,7 +11,7 @@ import { CamerasPresenter } from '../cameras.presenter';
 })
 export class CameraDetailsComponent extends BaseComponent implements OnInit {
   pageTitle = 'Camera Details';
-  _camera: any = null;
+  _camera: any[] = [];
   errorMessage: string = 'Default';
 
   set camera(camera: any) {
@@ -34,19 +34,20 @@ export class CameraDetailsComponent extends BaseComponent implements OnInit {
     this.presenter.getCameraByIdObserver$
       .pipe(takeUntil(this.destroy))
       .subscribe((value) => {
-        this.IdProduct(value);
+        this.IdCamera(value);
       });
-    this.getProductById();
+    this.getCameraById();
   }
   Back() {
     this.router.navigateByUrl('/cameras');
   }
-  getProductById() {
+  getCameraById() {
     this.presenter.getCameraById(this.globalService.id);
   }
 
-  async IdProduct(response) {
+  async IdCamera(response) {
     console.log(response);
-    this.camera = response.body;
+    this.camera = response.body.cameraData.reverse();
+    console.log(this.camera);
   }
 }

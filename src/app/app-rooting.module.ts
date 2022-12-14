@@ -15,6 +15,13 @@ const routes: Routes = [
         (m) => m.CameraModule
       ),
   },
+  {
+    path: 'cameras/:id',
+    loadChildren: () =>
+      import('./pages/camera-list/camera-details/camera-details.module').then(
+        (m) => m.CameraDetailsModule
+      ),
+  },
 ];
 
 // This module is used to group some of our routes to a different module in order to keep everything a bit clearer

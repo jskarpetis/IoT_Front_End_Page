@@ -4,7 +4,23 @@
   </div>
 
   <div class="card-body">
-    <div class="row">
+    <table class="table mb-0">
+      <thead>
+        <tr>
+          <th>Camera Id</th>
+          <th>Timestamp</th>
+          <th>Density</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let camera_info of _camera">
+          <td>{{ camera_info.camera_id }}</td>
+          <td>{{ camera_info.timestamp }}</td>
+          <td>{{ camera_info.density }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <div class="row">
       <div class="col-md-8">
         <div class="row" margin-bottom="2%">
           <div>Camera ID: {{ camera.camera_id }}</div>
@@ -16,7 +32,7 @@
           <div>Crowd Density:</div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="row mt-4">
       <div class="col-md-4">
@@ -33,5 +49,3 @@
     </div>
   </div>
 </div>
-
-<div class="alert alert-danger" *ngIf="errorMessage">{{ errorMessage }}</div>
