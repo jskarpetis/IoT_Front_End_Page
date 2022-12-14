@@ -32,6 +32,11 @@ export class CameraDetailsComponent extends BaseComponent implements OnInit {
     super(presenter, router);
   }
 
+  ngOnChanges() {
+    const selectionHtml: HTMLElement =
+      document.getElementById('outside-container');
+    selectionHtml.onload;
+  }
   ngOnInit(): void {
     this.presenter.getCameraByIdObserver$
       .pipe(takeUntil(this.destroy))
@@ -50,10 +55,14 @@ export class CameraDetailsComponent extends BaseComponent implements OnInit {
   async IdCamera(response) {
     this.camera = response.body.cameraData.reverse();
 
-    if (this.camera.length > 10) {
-      this.showcaseCameraData = this.camera.slice(0, 10);
+    if (this.camera.length > 5) {
+      this.showcaseCameraData = this.camera.slice(0, 5);
     } else {
       this.showcaseCameraData = this.camera;
     }
+  }
+
+  refreshButtonHandler() {
+    this.getCameraById();
   }
 }

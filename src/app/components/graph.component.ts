@@ -22,6 +22,7 @@ export class GraphComponent implements OnInit {
     if (cameraData.length > 50) {
       cameraData = cameraData.slice(0, 50);
     }
+    cameraData = cameraData.reverse();
 
     var data = {
       labels: [],
@@ -56,7 +57,7 @@ export class GraphComponent implements OnInit {
 
       data: plotData,
       options: {
-        aspectRatio: 1.2,
+        aspectRatio: 2.5,
       },
     });
   }
