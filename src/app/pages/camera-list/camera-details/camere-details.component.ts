@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/internal/operators';
 
@@ -11,8 +11,10 @@ import { CamerasPresenter } from '../cameras.presenter';
 })
 export class CameraDetailsComponent extends BaseComponent implements OnInit {
   pageTitle = 'Camera Details';
-  _camera: any[] = [];
+  @Output()
+  _camera: any[];
   errorMessage: string = 'Default';
+  showcaseCameraData: any[];
 
   set camera(camera: any) {
     this._camera = camera;
@@ -46,8 +48,12 @@ export class CameraDetailsComponent extends BaseComponent implements OnInit {
   }
 
   async IdCamera(response) {
-    console.log(response);
     this.camera = response.body.cameraData.reverse();
-    console.log(this.camera);
+
+    if (this.camera.length > 10) {
+      this.showcaseCameraData = this.camera.slice(0, 10);
+    } else {
+      this.showcaseCameraData = this.camera;
+    }
   }
 }

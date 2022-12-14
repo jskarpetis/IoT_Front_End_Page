@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './shared/auth-gard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,6 +15,7 @@ const routes: Routes = [
       import('./pages/camera-list/cameras/cameras.module').then(
         (m) => m.CameraModule
       ),
+    canActivate: [AuthGuard],
   },
   {
     path: 'cameras/:id',
@@ -21,6 +23,7 @@ const routes: Routes = [
       import('./pages/camera-list/camera-details/camera-details.module').then(
         (m) => m.CameraDetailsModule
       ),
+    canActivate: [AuthGuard],
   },
 ];
 

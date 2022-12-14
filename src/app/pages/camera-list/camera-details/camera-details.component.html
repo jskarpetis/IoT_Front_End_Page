@@ -13,11 +13,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let camera_info of _camera">
+        <tr *ngFor="let camera_info of this.showcaseCameraData">
           <td>{{ camera_info.camera_id }}</td>
           <td>{{ camera_info.timestamp }}</td>
           <td>{{ camera_info.density }}</td>
         </tr>
+        <graph-component
+          *ngIf="this.camera"
+          [cameraData]="this.camera"
+        ></graph-component>
       </tbody>
     </table>
     <!-- <div class="row">

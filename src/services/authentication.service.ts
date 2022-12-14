@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthenticationAPI } from '../eshopAPI/api/authenticationAPI';
 import { AdminLoginResponse } from '../eshopAPI/models/AdminLoginResponse';
 import { Values } from '../eshopAPI/settings';
+import { GlobalsService } from './globals.service';
 @Injectable({
   providedIn: 'root',
 })
@@ -11,7 +12,10 @@ export class AuthenticationService {
    * @constructor
    * @param {AuthenticationAPI} api
    */
-  constructor(private api: AuthenticationAPI) {}
+  constructor(
+    private api: AuthenticationAPI,
+    private globalService: GlobalsService
+  ) {}
 
   private __autoAuthInput: any; //AuthenticateAdminInput
 
@@ -32,6 +36,7 @@ export class AuthenticationService {
         .authenticateAdmin(input, headers)
         .then((result) => {
           Values.Token = result.body.access_token;
+          this.globalService.token = result.body.access_token;
           resolve(result);
         })
         .catch((error) => {

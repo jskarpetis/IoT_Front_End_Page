@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class GlobalsService {
   private _token: string = null;
   private _id: string = null;
+  private _cameraData: any[];
 
   get token() {
     return this._token;
@@ -19,5 +20,13 @@ export class GlobalsService {
   }
   set id(id: string) {
     this._id = id;
+  }
+
+  get cameraData() {
+    return this._cameraData;
+  }
+
+  set cameraData(cameraData: any[]) {
+    this._cameraData = cameraData;
   }
 }

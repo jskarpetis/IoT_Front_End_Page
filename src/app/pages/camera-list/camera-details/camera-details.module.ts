@@ -4,9 +4,10 @@ import { CameraDetailsComponent } from './camere-details.component';
 import { CameraDetailsRoutingModule } from './camera-details.routing';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { GraphComponent } from '../../../components/graph.component';
 
 @NgModule({
-  declarations: [CameraDetailsComponent],
+  declarations: [CameraDetailsComponent, GraphComponent],
   imports: [
     CameraDetailsRoutingModule,
     SharedModule,
