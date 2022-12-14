@@ -33,10 +33,9 @@ export class CameraDetailsComponent extends BaseComponent implements OnInit {
   }
 
   ngOnChanges() {
-    const selectionHtml: HTMLElement =
-      document.getElementById('outside-container');
-    selectionHtml.onload;
+    window.location.reload();
   }
+
   ngOnInit(): void {
     this.presenter.getCameraByIdObserver$
       .pipe(takeUntil(this.destroy))

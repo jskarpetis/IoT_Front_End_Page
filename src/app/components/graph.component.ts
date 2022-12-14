@@ -18,9 +18,14 @@ export class GraphComponent implements OnInit {
     this.createChart(plotData);
   }
 
+  ngOnChanges() {
+    this.chart = null;
+    this.createChart(this.formPlotData(this.cameraData));
+  }
+
   formPlotData(cameraData) {
-    if (cameraData.length > 50) {
-      cameraData = cameraData.slice(0, 50);
+    if (cameraData.length > 25) {
+      cameraData = cameraData.slice(0, 25);
     }
     cameraData = cameraData.reverse();
 
