@@ -15,15 +15,24 @@
     <div class="table-responsive">
       <table class="table mb-0" *ngIf="cameras">
         <thead>
-          <tr>
-            <th>Camera Id</th>
-            <th></th>
-          </tr>
+          <th style="border: none">CAMERA ID</th>
         </thead>
         <tbody>
           <tr *ngFor="let camera of filteredCameras">
-            <td>{{ camera.camera_id }}</td>
-            <td>
+            <td
+              style="
+                align-items: center;
+                display: flex;
+                justify-content: flex-start;
+              "
+            >
+              <img
+                src="../../../../assets/camera.jpg"
+                style="width: 25px; padding: 3px"
+              />
+              <div style="font-weight: 700">{{ camera.camera_id }}</div>
+            </td>
+            <td style="justify-content: flex-end">
               <!-- Binding the button edit to the productEdit page  -->
               <button
                 class="btn btn-outline-primary btn-sm"

@@ -9,7 +9,7 @@ import { Chart } from 'chart.js';
   providers: [],
 })
 export class GraphComponent implements OnInit {
-  public chart: any;
+  public chart: Chart;
   public plotData: any;
   @Input() cameraData: any[];
   constructor(public globalService: GlobalsService) {}
@@ -19,7 +19,9 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnChanges() {
-    this.chart = null;
+    if (this.chart) {
+      this.chart.destroy();
+    }
     this.createChart(this.formPlotData(this.cameraData));
   }
 
@@ -28,14 +30,21 @@ export class GraphComponent implements OnInit {
       cameraData = cameraData.slice(0, 25);
     }
     cameraData = cameraData.reverse();
-
+    let backgroundColor = [];
+    for (let i = 0; i < cameraData.length; i++) {
+      if (cameraData[i]['density'] >= 70) {
+        backgroundColor.push('red');
+      } else {
+        backgroundColor.push('green');
+      }
+    }
     var data = {
       labels: [],
       datasets: [
         {
           label: 'Density',
           data: [],
-          backgroundColor: 'blue',
+          backgroundColor: backgroundColor,
         },
       ],
     };
@@ -63,6 +72,15 @@ export class GraphComponent implements OnInit {
       data: plotData,
       options: {
         aspectRatio: 2.5,
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
       },
     });
   }

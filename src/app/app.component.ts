@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { GlobalsService } from '../services/globals.service';
 
 @Component({
   selector: 'app-root',
@@ -9,4 +10,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   pageTitle = 'IoT Project';
   loading: boolean = false;
+  loggedIn: boolean = true;
+
+  constructor(public globalService: GlobalsService) {}
 }
