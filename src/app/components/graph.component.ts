@@ -32,7 +32,7 @@ export class GraphComponent implements OnInit {
     cameraData = cameraData.reverse();
     let backgroundColor = [];
     for (let i = 0; i < cameraData.length; i++) {
-      if (cameraData[i]['density'] >= 70) {
+      if (cameraData[i]['density'] >= 60) {
         backgroundColor.push('red');
       } else {
         backgroundColor.push('green');
