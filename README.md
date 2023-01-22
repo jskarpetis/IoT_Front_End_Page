@@ -4,7 +4,10 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Dependencies
 
-1. In order to run this project you need angular + node (Download from website)
+1. In order to run this project you need
+   -> npm `(https://phoenixnap.com/kb/install-node-js-npm-on-windows)`
+   -> angular `(https://angular.io/cli)`
+   -> node `(https://nodejs.org/en/download/)`
 
 2. After those are installed, Run `npm install` on the root directory of the project, this command will install all libraries needed.
 
